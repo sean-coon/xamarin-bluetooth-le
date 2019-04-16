@@ -179,6 +179,19 @@ namespace Plugin.BLE.Android
             return connectedDevices.Union(bondedDevices, new DeviceComparer()).Select(d => new Device(this, d, null, 0)).Cast<IDevice>().ToList();
         }
 
+        public override List<IDevice> GetSystemConnectedDevices(Guid[] services = null)
+        {
+            if (services != null)
+            {
+                Trace.Message("Caution: GetSystemConnectedDevices does not take into account the 'services' parameter on Android.");
+            }
+
+            //add dualMode type too as they are BLE too ;)
+            var connectedDevices = _bluetoothManager.GetConnectedDevices(ProfileType.Gatt).Where(d => d.Type == BluetoothDeviceType.Le || d.Type == BluetoothDeviceType.Dual);
+
+            return connectedDevices.Cast<IDevice>().ToList();
+        }
+
         private class DeviceComparer : IEqualityComparer<BluetoothDevice>
         {
             public bool Equals(BluetoothDevice x, BluetoothDevice y)

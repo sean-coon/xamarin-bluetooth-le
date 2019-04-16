@@ -47,5 +47,11 @@ namespace Plugin.BLE.Abstractions.Utils
             TraceUnavailability();
             return new List<IDevice>();
         }
+
+        public override List<IDevice> GetSystemConnectedDevices(Guid[] services = null)
+        {
+            TraceUnavailability();
+            return new List<IDevice>();
+        }
     }
 }
