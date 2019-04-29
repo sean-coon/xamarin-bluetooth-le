@@ -189,7 +189,7 @@ namespace Plugin.BLE.Android
             //add dualMode type too as they are BLE too ;)
             var connectedDevices = _bluetoothManager.GetConnectedDevices(ProfileType.Gatt).Where(d => d.Type == BluetoothDeviceType.Le || d.Type == BluetoothDeviceType.Dual);
 
-            return connectedDevices.Cast<IDevice>().ToList();
+            return connectedDevices.Select(d => new Device(this, d, null, 0)).Cast<IDevice>().ToList();
         }
 
         private class DeviceComparer : IEqualityComparer<BluetoothDevice>
